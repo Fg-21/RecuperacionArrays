@@ -46,13 +46,12 @@ public class UndirLaFlota {
 		int posC = 0;
 		
 		for (int i = 0; i < numBarquitos; i++) {
+			
+			do {
 			posF = rand.nextInt(0, tablero.length);
 			posC = rand.nextInt(0, tablero[0].length);
+			} while (posF < 0 || posF >= tablero.length || posC < 0 || posC >= tablero.length);
 			
-			while (tablero[posF][posC] == 'B') {
-				posF = rand.nextInt(0, tablero.length);
-				posC = rand.nextInt(0, tablero[0].length);
-			}
 			tablero[posF][posC] = 'B';
 		}
 		
@@ -84,36 +83,32 @@ public class UndirLaFlota {
 		Scanner rd = new Scanner(System.in);
 		char fila;
 		int columna;
+		int posFila;
 		
-		System.out.println("Introduce la fila:");
-		fila = rd.nextLine().toUpperCase().charAt(0);
+		do {
+			System.out.println("Introduce la fila:");
+			fila = rd.nextLine().toUpperCase().charAt(0);
+			posFila = (fila - 'A');
+		} while(posFila < 0 || posFila >= tablero.length);
 		
-		System.out.println("Introduce la columna:");
-		columna = rd.nextInt();
 		
-		//Limpio buffer
+		do  {
+			System.out.println("Introduce la columna:");
+			columna = rd.nextInt();
+		} while (columna <= 0 || columna > tablero[0].length);
+		
 		rd.nextLine();
 		
-		while (!(fila >= 'A' && fila < tablero.length + 'A')) {
-			System.out.println("Fila mal introducida. Introduce la fila:");
-			fila = rd.nextLine().toUpperCase().charAt(0);
-		}
-		
-		while (!(columna > 0 && columna <= tablero[0].length)) {
-			System.out.println("Columna mal introducida. Introduce la columna:");
-			columna = rd.nextInt();
-		}
-		
-		if (tablero[fila - 'A'][columna - 1] == 'B') {
+		if (tablero[posFila][columna - 1] == 'B') {
 			System.out.println("HUNDIDO");
-			tableroJugador[fila - 'A'][columna - 1] = 'B';
+			tableroJugador[posFila][columna - 1] = 'B';
 			drowned = true;
 		} else {
 			System.out.println("AGUA");
-			tableroJugador[fila - 'A'][columna - 1] = 'A';
+			tableroJugador[posFila][columna - 1] = 'A';
 		}
 		
-		rd.close();
+//		rd.close();
 		
 		return drowned;
 	}
