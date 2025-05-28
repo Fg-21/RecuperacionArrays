@@ -68,48 +68,32 @@ public class UndirLaFlotaMain {
 		tableroJ1 = UndirLaFlota.inicializaTablero(filas, columnas);
 		tableroJ2 = UndirLaFlota.inicializaTablero(filas, columnas);
 		
-		//Loop principal de juego
-		do {
-			//Loop del primer jugador (si acierta sigue)
-			System.out.println("Turno Jugador 1");
-			UndirLaFlota.pintaTablero(tableroJ1);
-			while (UndirLaFlota.turnoJugador(tableroMain, tableroJ1)){
-				bcont1--;
-				UndirLaFlota.pintaTablero(tableroJ1);
-			};
-			
-			//Loop del segundo jugador (si acierta sigue)
-			System.out.println("Turno Jugador 2");
-			UndirLaFlota.pintaTablero(tableroJ2);
-			while (UndirLaFlota.turnoJugador(tableroMain, tableroJ2) && barcos != 0) {
-				bcont2--;
-				barcos--;
-				UndirLaFlota.pintaTablero(tableroJ2);
-			};
-//			
-//			System.out.println("Turno del jugador: " + turno);
-//			if(turno == 0) {
-//				UndirLaFlota.pintaTablero(tableroJ1);
-//				res = UndirLaFlota.turnoJugador(tableroMain, tableroJ1);
-//				if(res) {
-//					bcont1--;
-//				} else {
-//					turno = 1;
-//				}
-//				
-//			} else {
-//				UndirLaFlota.pintaTablero(tableroJ2);
-//				res = UndirLaFlota.turnoJugador(tableroMain, tableroJ2);
-//				if(res) {
-//					bcont2--;
-//				} else {
-//					turno = 0;
-//				}
-//			}
-			
-			
-			
-		} while (bcont1 != 0 || bcont2 != 0);
+		while (bcont1 > 0 && bcont2 > 0) {
+		    System.out.println("Turno Jugador 1");
+		    UndirLaFlota.pintaTablero(tableroJ1);
+		    boolean acierto;
+		    do {
+		        acierto = UndirLaFlota.turnoJugador(tableroMain, tableroJ1);
+		        if (acierto) {
+		            bcont1--;
+		            UndirLaFlota.pintaTablero(tableroJ1);
+		        }
+		    } while (acierto && bcont1 > 0);
+
+		    if (bcont1 > 0) { // Solo juega el J2 si el J1 no ha ganado
+		        System.out.println("Turno Jugador 2");
+		        UndirLaFlota.pintaTablero(tableroJ2);
+		        do {
+		            acierto = UndirLaFlota.turnoJugador(tableroMain, tableroJ2);
+		            if (acierto) {
+		                bcont2--;
+		                UndirLaFlota.pintaTablero(tableroJ2);
+		            }
+		        } while (acierto && bcont2 > 0);
+		    }
+		}
+
+
 		
 		if (bcont1 == 0) {
 			System.out.println("JUGADOR 1 HA GANADO");
@@ -117,6 +101,7 @@ public class UndirLaFlotaMain {
 			System.out.println("JUGADOR 2 HA GANADO");
 		}
 		
+		rd.close();
 				
 	}
 }

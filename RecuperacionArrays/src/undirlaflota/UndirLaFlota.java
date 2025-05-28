@@ -44,15 +44,17 @@ public class UndirLaFlota {
 		Random rand = new Random();
 		int posF = 0;
 		int posC = 0;
+		int i = 0;
 		
-		for (int i = 0; i < numBarquitos; i++) {
-			
-			do {
+		while (i < numBarquitos) {
 			posF = rand.nextInt(0, tablero.length);
 			posC = rand.nextInt(0, tablero[0].length);
-			} while (posF < 0 || posF >= tablero.length || posC < 0 || posC >= tablero.length);
 			
-			tablero[posF][posC] = 'B';
+			if (tablero[posF][posC] != 'B') {
+				tablero[posF][posC] = 'B';
+				
+				i++;
+			}
 		}
 		
 	}
@@ -108,7 +110,6 @@ public class UndirLaFlota {
 			tableroJugador[posFila][columna - 1] = 'A';
 		}
 		
-//		rd.close();
 		
 		return drowned;
 	}
